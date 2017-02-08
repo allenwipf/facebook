@@ -23,13 +23,37 @@ window.addEventListener("load", function () {
 	function profileViewListener(){
 	var list = document.getElementsByClassName("media__info");
 		for (var i = 0; i < list.length; i++){ 
-			document.getElementsByClassName("media__info")[i].childNodes[1].addEventListener("click", profileView);
-	    }
+			var iteration = document.getElementsByClassName("media__info")[i].getElementsByTagName("a");
+	    	if (iteration.length > 0){
+	        	document.getElementsByClassName("media__info")[i].getElementsByTagName("a")[0].addEventListener("click", profileView);
+	    	}
+	    } 
 	}
+
 	// Closes the popup profile box
 	function profileBoxListener(){
 		document.getElementsByClassName("modal__close")[0].addEventListener("click", closeProfileBox)	
+		document.getElementsByClassName("modal")[0].addEventListener("click", closeProfileBox)	
+	}   
+
+	function textButtonListener(){
+	var list = document.getElementsByClassName("commentForm media");
+		for (var i = 0; i < list.length; i++){ 
+	   		document.getElementsByClassName("comment media")[i].getElementsByTagName("input")[0].addEventListener("click", textBox);
+		}
+
 	}
+
+
+		function test(){
+	var list = document.getElementsByClassName("comment media");
+		for (var i = 0; i < list.length; i++){ 
+	   		document.getElementsByClassName("comment media")[i].addEventListener("click", allen);
+		}
+
+	}
+
+
 
 
 	// These are the functions that are called after page load
@@ -38,6 +62,8 @@ window.addEventListener("load", function () {
 	showCommentsListener()
 	profileViewListener()
 	profileBoxListener()
+	textButtonListener()
+	test()
 })
 
 
@@ -83,13 +109,54 @@ function CommentsShow(){
 function profileView(){
 
     document.getElementsByClassName("modal")[0].style.display = "block"
+    document.getElementsByClassName("modal__title")[0].innerText = (this.innerText)
+    document.getElementsByClassName("modal__title")[0].parentElement.childNodes[5].innerText = "friends: " + Math.floor((Math.random() * 500) + 200)
 }
 
-function closeProfileBox(){
+function closeProfileBox(e){
 
-	document.getElementsByClassName("modal")[0].style.display = "none"
+	if (e.target == this){
+
+		if (this.style.display = "block"){
+			document.getElementsByClassName("modal")[0].style.display = "none"
+			
+		} else {
+			document.getElementsByClassName("modal")[0].style.display = "none"
+		}
+	} 	
+
 }
 
+function textBox(e){
+
+
+	// //var everything = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0]
+	alert("hi")
+	// var userBox = this[0];
+	// var cloneBox = userBox.cloneNode(true);
+	// this[0].parentElement.appendChild(cloneBox);
+	
+	// //document.getElementsByClassName("comment media")[i].childNodes[1]
+	 
+ //    e.preventDefault()
+
+	// //wordsInBox = this.parentElement.getElementsByTagName("textarea")[0].value 
+}
+
+function allen(e){
+
+	var userBox = this;
+	var cloneBox = userBox.cloneNode(true);
+	this.parentElement.appendChild(cloneBox);
+
+	// wordsInBox = this.getElementsByTagName("textarea")[0].value 
+	// alert(wordsInBox)
+
+	e.preventDefault()
+
+
+
+}
 
 
 
