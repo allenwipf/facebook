@@ -20,6 +20,12 @@ window.addEventListener("load", function () {
 	    }
 	}
 
+// WORKING ON
+	function clickCommentListener(){
+
+		document.getElementsByClassName("action action--comment")[0].addEventListener("click", clickComment)
+	}
+
 	function profileViewListener(){
 	var list = document.getElementsByClassName("media__info");
 		for (var i = 0; i < list.length; i++){ 
@@ -36,22 +42,14 @@ window.addEventListener("load", function () {
 		document.getElementsByClassName("modal")[0].addEventListener("click", closeProfileBox)	
 	}   
 
-	function textButtonListener(){
-	var list = document.getElementsByClassName("commentForm media");
-		for (var i = 0; i < list.length; i++){ 
-	   		document.getElementsByClassName("comment media")[i].getElementsByTagName("input")[0].addEventListener("click", textBox);
-		}
 
+	function commentBoxListener(){
+	var list = document.getElementsByTagName("form")
+		for (var i = 0; i < list.length; i++){
+			document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
+		}
 	}
 
-
-		function test(){
-	var list = document.getElementsByClassName("comment media");
-		for (var i = 0; i < list.length; i++){ 
-	   		document.getElementsByClassName("comment media")[i].addEventListener("click", allen);
-		}
-
-	}
 
 
 
@@ -62,8 +60,9 @@ window.addEventListener("load", function () {
 	showCommentsListener()
 	profileViewListener()
 	profileBoxListener()
-	textButtonListener()
-	test()
+	clickCommentListener()
+	commentBoxListener()
+
 })
 
 
@@ -127,41 +126,33 @@ function closeProfileBox(e){
 
 }
 
-function textBox(e){
 
+function clickComment(){
 
-	// //var everything = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0]
-	alert("hi")
-	// var userBox = this[0];
-	// var cloneBox = userBox.cloneNode(true);
-	// this[0].parentElement.appendChild(cloneBox);
+	this.parentElement.parentElement.parentElement.getElementsByTagName("textarea")[5].focus()
 	
-	// //document.getElementsByClassName("comment media")[i].childNodes[1]
-	 
- //    e.preventDefault()
-
-	// //wordsInBox = this.parentElement.getElementsByTagName("textarea")[0].value 
-}
-
-function allen(e){
-
-	var userBox = this;
-	var cloneBox = userBox.cloneNode(true);
-	this.parentElement.appendChild(cloneBox);
-
-	// wordsInBox = this.getElementsByTagName("textarea")[0].value 
-	// alert(wordsInBox)
-
-	e.preventDefault()
-
-
-
 }
 
 
+function commentBox(e){
+	// Saves form data to variale
+	var formText = this.childNodes[1].value;
+	var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
 
+	if ((list.childNodes[list.childNodes.length-2].className == "commentForm media")){
 
+		var newItem = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[4];
+	    list.insertBefore(newItem, list.childNodes[0]);
+	
+    } else {
 
+		var item = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0];
+		var clone = item.cloneNode(true);
+		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(clone);
+    	
+    }
+	e.preventDefault();
 
+}
 
 
