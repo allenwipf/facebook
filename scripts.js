@@ -134,6 +134,8 @@ function clickComment(){
 }
 
 
+
+
 function commentBox(e){
 	// Saves form data to variale
 	var formText = this.childNodes[1].value;
@@ -141,8 +143,15 @@ function commentBox(e){
 
 	if ((list.childNodes[list.childNodes.length-2].className == "commentForm media")){
 
+		commentPostion = (list.childNodes.length - 2)
 		var newItem = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[4];
-	    list.insertBefore(newItem, list.childNodes[0]);
+	    list.insertBefore(newItem, list.childNodes[commentPostion]);
+
+	    this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[commentPostion]
+
+	    debugger
+
+
 	
     } else {
 
@@ -150,6 +159,9 @@ function commentBox(e){
 		var clone = item.cloneNode(true);
 		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(clone);
     	
+    	var commentPosition = (item.parentElement.childNodes.length - 1)
+		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[1].innerText = "Allen Wipf"
+		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[2].textContent = " " + formText + " "
     }
 	e.preventDefault();
 
