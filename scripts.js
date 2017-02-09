@@ -5,6 +5,14 @@ window.addEventListener("load", function () {
 	function postLikeListener(){
 		document.getElementsByClassName("action action--like")[0].addEventListener("click", changePostLikes)	
 	}
+
+	// Post Comment Counter
+	function postLikeListener(){
+		document.getElementsByClassName("action action--like")[0].addEventListener("click", changePostLikes)	
+
+	}
+
+
 	// Loops through the comment likes and adds a click event
 	function commentLikeListener(){
 	var list = document.getElementsByClassName("comment__info");
@@ -96,6 +104,7 @@ function changeCommentLikes(){
 // This function expands the comments for each of the replies on the post
 function CommentsShow(){
 	 currentStyle = this.parentElement.parentElement.childNodes[5].style.display
+	
 	 this.parentElement.parentElement.childNodes[5].style.display
 	
 	if (currentStyle == "none") {
@@ -103,6 +112,9 @@ function CommentsShow(){
 	} else if (currentStyle == "block") {		
 		this.parentElement.parentElement.childNodes[5].style.display = "none"
 	}
+
+	
+
 }
 
 function profileView(){
@@ -147,9 +159,13 @@ function commentBox(e){
 		var newItem = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[4];
 	    list.insertBefore(newItem, list.childNodes[commentPostion]);
 
-	    this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[commentPostion]
+	    commentPostion = (list.childNodes.length - 3)
+	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[1].innerText = "Allen Wipf"
+	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[2].textContent = " " + formText + " "
+	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[3].childNodes[5].innerText = "0 likes"
+	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[3].childNodes[3].innerText = "Reply"
 
-	    debugger
+	  	
 
 
 	
@@ -162,9 +178,44 @@ function commentBox(e){
     	var commentPosition = (item.parentElement.childNodes.length - 1)
 		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[1].innerText = "Allen Wipf"
 		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[2].textContent = " " + formText + " "
+    	item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[3].childNodes[5].innerText = "0 likes"
+    	item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[3].childNodes[3].innerText = "Reply"
+    	
+    	var postComment = parseInt((document.getElementsByClassName("post__info")[0].childNodes[3].innerText).split(" ")[0])
+    	document.getElementsByClassName("post__info")[0].childNodes[3].innerText = ((postComment + 1) + " comments")
+
+   
+    	var commentPosition = (item.parentElement.childNodes.length - 1)
+		var list = item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[5];
+		var list2 = (list.childNodes.length - 3)
+		
+		for (i =0; i <= list2; i++){
+		// while (list.hasChildNodes()) {
+		 list.removeChild(list.firstChild)
+
+		// 	// }					
+		}
+
     }
+
+    // debugger
 	e.preventDefault();
+	showCommentsListener();
+	commentLikeListener();
 
 }
 
 
+function showCommentsListener(){
+var list = document.getElementsByClassName("comment media");
+	for (var i = 0; i < list.length; i++){ 
+		document.getElementsByClassName("comment media")[i].childNodes[3].childNodes[3].childNodes[3].addEventListener("click", CommentsShow);
+    }
+}
+
+function commentLikeListener(){
+var list = document.getElementsByClassName("comment__info");
+	for (var i = 0; i < list.length; i++){
+		document.getElementsByClassName("comment__info")[i].childNodes[1].addEventListener("click", changeCommentLikes);
+    }
+}
