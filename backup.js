@@ -105,7 +105,6 @@ function changeCommentLikes(){
 
 // This function expands the comments for each of the replies on the post
 function CommentsShow(){
-
 	 currentStyle = this.parentElement.parentElement.childNodes[5].style.display
 	
 	 this.parentElement.parentElement.childNodes[5].style.display
@@ -172,55 +171,59 @@ function commentBox(e){
 	if ((list.childNodes[list.childNodes.length-2].className == "commentForm media")){
 
 		commentPostion = (list.childNodes.length - 2)
+		 // debugger
+		var newItem = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[4];
+		var clone = newItem.cloneNode(true)
+		var newItem2 = this.parentElement.parentElement.parentElement.childNodes[0];
+		var clone2 = newItem2.cloneNode(true)
 
-		var newItem = document.getElementsByClassName("cloneBox2")[0].childNodes[1];
-		var newItem = newItem.cloneNode(true);
-		var textItem = document.getElementsByClassName("cloneBox2")[0].childNodes[0];
-	    var textItem = textItem.cloneNode(true);
-
-	    list.insertBefore(newItem, list.childNodes[commentPostion]);
-	    list.insertBefore(textItem, list.childNodes[commentPostion + 1]);
+	    list.insertBefore(clone, list.childNodes[commentPostion]);
+	    
+	    list.insertBefore(clone2, list.childNodes[commentPostion + 1]);
 	
 	    var commentPostion = (list.childNodes.length - 4)
 	    var commentAddress = this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3]
+
 	
 	    commentAddress.childNodes[1].innerText = "Allen Wipf"
 	    commentAddress.childNodes[2].textContent = " " + formText + " "
 	    commentAddress.childNodes[3].childNodes[5].textContent = "0 likes"
+	 
+	    // commentAddress.childNodes[3].childNodes[3].innerText = "Reply"
+
 
 	    var postComments = parseInt((this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText).split(" ")[0])
 	    this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText = ((postComments + 1) + " comments")
 
     } else {
 
-		var item = document.getElementsByClassName("cloneBox2")[0].childNodes[1];
-		var item = item.cloneNode(true);
-		//debugger
-		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(item);
+		var item = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0];
+		var clone = item.cloneNode(true);
+		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(clone);
     	
     	var commentPosition = (item.parentElement.childNodes.length - 1)
     	var commentAddress = item.parentElement.childNodes[commentPosition].childNodes[3]
-    	
+
 		commentAddress.childNodes[1].innerText = "Allen Wipf"
 		commentAddress.childNodes[2].textContent = " " + formText + " "
-		commentAddress.childNodes[3].childNodes[5].innerText = "0 likes"
-
+    	commentAddress.childNodes[3].childNodes[5].innerText = "0 likes"
+    	commentAddress.childNodes[3].childNodes[3].innerText = "Reply"
     	
-    	//Increase Comments
+    	// Increase Comments
     	var postComment = parseInt((document.getElementsByClassName("post__info")[0].childNodes[3].innerText).split(" ")[0])
     	document.getElementsByClassName("post__info")[0].childNodes[3].innerText = ((postComment + 1) + " comments")
 
    
-  //   	var commentPosition = (item.parentElement.childNodes.length - 1)
-		// var list = item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[5];
-		// var list2 = (list.childNodes.length - 4)
+    	var commentPosition = (item.parentElement.childNodes.length - 1)
+		var list = item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[5];
+		var list2 = (list.childNodes.length - 4)
 		
-		// for (i =0; i <= list2; i++){
-		// // while (list.hasChildNodes()) {
-		//  list.removeChild(list.firstChild)
+		for (i =0; i <= list2; i++){
+		// while (list.hasChildNodes()) {
+		 list.removeChild(list.firstChild)
 
 		// 	// }					
-		// }
+		}
 
     }
 
@@ -254,16 +257,3 @@ var list = document.getElementsByTagName("form")
 		document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
