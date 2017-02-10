@@ -7,8 +7,8 @@ window.addEventListener("load", function () {
 	}
 
 	// Post Comment Counter
-	function postLikeListener(){
-		document.getElementsByClassName("action action--like")[0].addEventListener("click", changePostLikes)	
+	function postShareListener(){
+		document.getElementsByClassName("action action--share")[0].addEventListener("click", postShare)	
 
 	}
 
@@ -28,7 +28,7 @@ window.addEventListener("load", function () {
 	    }
 	}
 
-// WORKING ON
+
 	function clickCommentListener(){
 
 		document.getElementsByClassName("action action--comment")[0].addEventListener("click", clickComment)
@@ -86,7 +86,7 @@ function changePostLikes(){
 	} else {
 		this.innerText = "Like";
 		document.getElementsByClassName("post__info")[0].childNodes[1].innerText = (postLikes - 1) + " likes"
-}
+	}
 }
 // This function works on all the Replies "Like" to "Unlike" and vice versa and increments total likes accordingly
 function changeCommentLikes(){	
@@ -99,8 +99,9 @@ function changeCommentLikes(){
 	} else {		
 		this.innerText = "Unlike";
 		this.parentElement.childNodes[5].innerText = (likeCount + 1) + " likes"
+	}
 }
-}
+
 // This function expands the comments for each of the replies on the post
 function CommentsShow(){
 	 currentStyle = this.parentElement.parentElement.childNodes[5].style.display
@@ -112,9 +113,6 @@ function CommentsShow(){
 	} else if (currentStyle == "block") {		
 		this.parentElement.parentElement.childNodes[5].style.display = "none"
 	}
-
-	
-
 }
 
 function profileView(){
@@ -145,30 +143,61 @@ function clickComment(){
 	
 }
 
+// WORKING ON
+function postShare(){
+	 currentStyle = this.parentElement.parentElement.childNodes[5].style.display
+	
+	 this.parentElement.parentElement.childNodes[5].style.display
+	
+	if (currentStyle == "none") {
+		this.parentElement.parentElement.childNodes[5].style.display = "block"	
+	} else if (currentStyle == "block") {		
+		this.parentElement.parentElement.childNodes[5].style.display = "none"
+	}
+}
 
 
 
 function commentBox(e){
-	// Saves form data to variale
+	// Saves comment box to variable
 	var formText = this.childNodes[1].value;
+
+	if (formText == ""){
+		alert("Please enter a comment!")
+		return
+	}
+	//sets comment box to empty
+	this.childNodes[1].value = ''
+
 	var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
 
 	if ((list.childNodes[list.childNodes.length-2].className == "commentForm media")){
 
 		commentPostion = (list.childNodes.length - 2)
+		 // debugger
 		var newItem = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[4];
-	    list.insertBefore(newItem, list.childNodes[commentPostion]);
+		var clone = newItem.cloneNode(true)
+		var newItem2 = this.parentElement.parentElement.parentElement.childNodes[0];
+		var clone2 = newItem2.cloneNode(true)
 
-	    commentPostion = (list.childNodes.length - 3)
-	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[1].innerText = "Allen Wipf"
-	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[2].textContent = " " + formText + " "
-	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[3].childNodes[5].innerText = "0 likes"
-	    this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3].childNodes[3].childNodes[3].innerText = "Reply"
-
-	  	
-
+	    list.insertBefore(clone, list.childNodes[commentPostion]);
+	    
+	    list.insertBefore(clone2, list.childNodes[commentPostion + 1]);
+	
+	    var commentPostion = (list.childNodes.length - 4)
+	    var commentAddress = this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3]
 
 	
+	    commentAddress.childNodes[1].innerText = "Allen Wipf"
+	    commentAddress.childNodes[2].textContent = " " + formText + " "
+	    commentAddress.childNodes[3].childNodes[5].textContent = "0 likes"
+	 
+	    // commentAddress.childNodes[3].childNodes[3].innerText = "Reply"
+
+
+	    var postComments = parseInt((this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText).split(" ")[0])
+	    this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText = ((postComments + 1) + " comments")
+
     } else {
 
 		var item = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0];
@@ -176,18 +205,21 @@ function commentBox(e){
 		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(clone);
     	
     	var commentPosition = (item.parentElement.childNodes.length - 1)
-		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[1].innerText = "Allen Wipf"
-		item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[2].textContent = " " + formText + " "
-    	item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[3].childNodes[5].innerText = "0 likes"
-    	item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[3].childNodes[3].innerText = "Reply"
+    	var commentAddress = item.parentElement.childNodes[commentPosition].childNodes[3]
+
+		commentAddress.childNodes[1].innerText = "Allen Wipf"
+		commentAddress.childNodes[2].textContent = " " + formText + " "
+    	commentAddress.childNodes[3].childNodes[5].innerText = "0 likes"
+    	commentAddress.childNodes[3].childNodes[3].innerText = "Reply"
     	
+    	// Increase Comments
     	var postComment = parseInt((document.getElementsByClassName("post__info")[0].childNodes[3].innerText).split(" ")[0])
     	document.getElementsByClassName("post__info")[0].childNodes[3].innerText = ((postComment + 1) + " comments")
 
    
     	var commentPosition = (item.parentElement.childNodes.length - 1)
 		var list = item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[5];
-		var list2 = (list.childNodes.length - 3)
+		var list2 = (list.childNodes.length - 4)
 		
 		for (i =0; i <= list2; i++){
 		// while (list.hasChildNodes()) {
@@ -202,6 +234,8 @@ function commentBox(e){
 	e.preventDefault();
 	showCommentsListener();
 	commentLikeListener();
+	commentBoxListener();
+
 
 }
 
@@ -218,4 +252,11 @@ var list = document.getElementsByClassName("comment__info");
 	for (var i = 0; i < list.length; i++){
 		document.getElementsByClassName("comment__info")[i].childNodes[1].addEventListener("click", changeCommentLikes);
     }
+}
+
+function commentBoxListener(){
+var list = document.getElementsByTagName("form")
+	for (var i = 0; i < list.length; i++){
+		document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
+	}
 }
