@@ -80,7 +80,7 @@ window.addEventListener("load", function () {
 function changePostLikes(){
 	// This varialbe get the number of likes for the parent Post
 	var postLikes = parseInt((document.getElementsByClassName("post__info")[0].childNodes[1].innerText).split(" ")[0])
-
+	console.log(window.event)
 	if (this.innerHTML == "Like") {
 	    this.innerText = "Unlike";
 	    document.getElementsByClassName("post__info")[0].childNodes[1].innerText = (postLikes + 1) + " likes"
@@ -92,7 +92,7 @@ function changePostLikes(){
 // This function works on all the Replies "Like" to "Unlike" and vice versa and increments total likes accordingly
 function changeCommentLikes(){	
 	var likeCount = parseInt((this.parentElement.childNodes[5].innerText).split(" ")[0])
-	
+	alert("hi")
 	if (this.innerText == "Unlike") {
     	this.innerText = "Like";
     	document.getElementsByClassName("comment__info")[0].childNodes[5].innerText = (likeCount - 1) + " likes"

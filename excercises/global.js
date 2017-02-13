@@ -108,10 +108,10 @@ function detectType(){
 // exercise 7. tabs from one input box to the next
 function autoTab(){
 
-	if ((this.id == "first") && ((this.value).length == 3)){
+	if ((event.target.id == "first") && ((event.target.value).length == 3)){
 		document.getElementById("second").focus()
 
-	} else if ((this.id == "second") && ((this.value).length == 3)){
+	} else if ((event.target.id == "second") && ((event.target.value).length == 3)){
 		document.getElementById("third").focus()
 	}
 }
