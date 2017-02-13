@@ -159,7 +159,7 @@ function postShare(e){
 function commentBox(e){
 	// Saves comment box to variable
 	var formText = this.childNodes[1].value;
-
+debugger
 	if (formText == ""){
 		alert("Please enter a comment!")
 		return

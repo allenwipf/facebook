@@ -102,15 +102,13 @@ function toggleElements(){
 function detectType(){
 
 	typed = document.getElementById("full_name").value
-
 	document.getElementById("greeting").innerText = typed
 }
 
-// exercise 7. tabs from on input box to the next
+// exercise 7. tabs from one input box to the next
 function autoTab(){
 
 	if ((this.id == "first") && ((this.value).length == 3)){
-
 		document.getElementById("second").focus()
 
 	} else if ((this.id == "second") && ((this.value).length == 3)){
