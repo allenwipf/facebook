@@ -1,80 +1,43 @@
 window.addEventListener("load", function () {
 
-
 	// This function adds an EvenListener to the Post Like button
-	function postLikeListener(){
-		document.getElementsByClassName("action action--like")[0].addEventListener("click", changePostLikes)	
-	}
+	document.getElementsByClassName("action action--like")[0].addEventListener("click", changePostLikes)	
 
 	// Post Comment Counter
-	function postShareListener(){
-		document.getElementsByClassName("action action--share")[0].addEventListener("click", postShare)	
-
-	}
-
+	document.getElementsByClassName("action action--share")[0].addEventListener("click", postShare)	
 
 	// Loops through the comment likes and adds a click event
-	function commentLikeListener(){
 	var list = document.getElementsByClassName("comment__info");
 		for (var i = 0; i < list.length; i++){
 			document.getElementsByClassName("comment__info")[i].childNodes[1].addEventListener("click", changeCommentLikes);
 	    }
-	}
+
 	// Loops through the message and adds a click even
-	function showCommentsListener(){
 	var list = document.getElementsByClassName("comment media");
 		for (var i = 0; i < list.length; i++){ 
 			document.getElementsByClassName("comment media")[i].childNodes[3].childNodes[3].childNodes[3].addEventListener("click", CommentsShow);
 	    }
-	}
+
+	document.getElementsByClassName("action action--comment")[0].addEventListener("click", clickComment)
 
 
-	function clickCommentListener(){
-
-		document.getElementsByClassName("action action--comment")[0].addEventListener("click", clickComment)
-	}
-
-	function profileViewListener(){
 	var list = document.getElementsByClassName("media__info");
-		for (var i = 0; i < list.length; i++){ 
-			var iteration = document.getElementsByClassName("media__info")[i].getElementsByTagName("a");
-	    	if (iteration.length > 0){
-	        	document.getElementsByClassName("media__info")[i].getElementsByTagName("a")[0].addEventListener("click", profileView);
-	    	}
-	    } 
-	}
+	for (var i = 0; i < list.length; i++){ 
+		var iteration = document.getElementsByClassName("media__info")[i].getElementsByTagName("a");
+    	if (iteration.length > 0){
+        	document.getElementsByClassName("media__info")[i].getElementsByTagName("a")[0].addEventListener("click", profileView);
+    	}
+    } 
 
 	// Closes the popup profile box
-	function profileBoxListener(){
-		document.getElementsByClassName("modal__close")[0].addEventListener("click", closeProfileBox)	
-		document.getElementsByClassName("modal")[0].addEventListener("click", closeProfileBox)	
-	}   
+	document.getElementsByClassName("modal__close")[0].addEventListener("click", closeProfileBox)	
+	document.getElementsByClassName("modal")[0].addEventListener("click", closeProfileBox)	
 
-
-	function commentBoxListener(){
 	var list = document.getElementsByTagName("form")
 		for (var i = 0; i < list.length; i++){
 			document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
 		}
-	}
-
-
-
-
-
-	// These are the functions that are called after page load
-	postLikeListener()
-	commentLikeListener()
-	showCommentsListener()
-	profileViewListener()
-	profileBoxListener()
-	clickCommentListener()
-	commentBoxListener()
-	postShareListener()
-
 })
-
-
 
 // This function works on the Post and changes "Like" to "Unlike" and vice versa and increments total likes accordingly
 function changePostLikes(){
@@ -105,17 +68,31 @@ function changeCommentLikes(){
 
 // This function expands the comments for each of the replies on the post
 function CommentsShow(){
+ 	
+	try {
+		(this.parentElement.parentElement.childNodes[5].style.display == undefined)
+	} catch(err) {
 
-	 currentStyle = this.parentElement.parentElement.childNodes[5].style.display
-	
-	 this.parentElement.parentElement.childNodes[5].style.display
-	
-	if (currentStyle == "none") {
-		this.parentElement.parentElement.childNodes[5].style.display = "block"	
-	} else if (currentStyle == "block") {		
-		this.parentElement.parentElement.childNodes[5].style.display = "none"
+		list = this.parentElement.parentElement
+		commentPostion = this.parentElement.parentElement.childNodes.length - 2 
+		cloneCommentBox(list, commentPostion)
+		
 	}
+		debugger
+		var currentStyle = this.parentElement.parentElement.childNodes[5].style.display
+	
+		if (currentStyle == "none") {
+			this.parentElement.parentElement.childNodes[5].style.display = "block"	
+		} else if (currentStyle == "block") {		
+			this.parentElement.parentElement.childNodes[5].style.display = "none"
+		}
+
+	reEventL();
 }
+
+
+
+
 
 function profileView(){
 
@@ -135,7 +112,6 @@ function closeProfileBox(e){
 			document.getElementsByClassName("modal")[0].style.display = "none"
 		}
 	} 	
-
 }
 
 
@@ -155,11 +131,60 @@ function postShare(e){
      document.getElementsByClassName("modal__body")[0].innerText = this.parentElement.parentElement.childNodes[3].childNodes[1].innerText
 }
 
+function incrementPostComments(){
+
+	var postComment = parseInt((document.getElementsByClassName("post__info")[0].childNodes[3].innerText).split(" ")[0])
+    document.getElementsByClassName("post__info")[0].childNodes[3].innerText = ((postComment + 1) + " comments")
+
+}
+
+function incrementChildComments(myThis){
+
+	var postComments = parseInt((myThis.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText).split(" ")[0])
+	myThis.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText = ((postComments + 1) + " comments")
+	
+}
+
+function fillCommentInfo(commentAddress, formText){
+
+
+	commentAddress.childNodes[1].innerText = "Allen Wipf"
+    commentAddress.childNodes[2].textContent = " " + formText + " "
+    commentAddress.childNodes[3].childNodes[5].textContent = "0 likes"
+}
+
+function reEventL(){
+
+	showCommentsListener();
+	commentLikeListener();
+	commentBoxListener();
+}
+
+function cloneComment(list, commentPostion){
+
+	var newItem = document.getElementsByClassName("cloneBox2")[0].childNodes[1];
+	var newItem = newItem.cloneNode(true);
+	var textItem = document.getElementsByClassName("cloneBox2")[0].childNodes[0];
+    var textItem = textItem.cloneNode(true);
+
+    list.insertBefore(newItem, list.childNodes[commentPostion]);
+    list.insertBefore(textItem, list.childNodes[commentPostion + 1]);
+
+}
+
+function cloneCommentBox(list, commentPostion){
+
+	var newItem = document.getElementById("commentBoxClone");
+	var newItem = newItem.cloneNode(true);
+    list.insertBefore(newItem, list.childNodes[commentPostion]);
+  
+
+}
 
 function commentBox(e){
 	// Saves comment box to variable
 	var formText = this.childNodes[1].value;
-debugger
+
 	if (formText == ""){
 		alert("Please enter a comment!")
 		return
@@ -173,23 +198,13 @@ debugger
 
 		commentPostion = (list.childNodes.length - 2)
 
-		var newItem = document.getElementsByClassName("cloneBox2")[0].childNodes[1];
-		var newItem = newItem.cloneNode(true);
-		var textItem = document.getElementsByClassName("cloneBox2")[0].childNodes[0];
-	    var textItem = textItem.cloneNode(true);
-
-	    list.insertBefore(newItem, list.childNodes[commentPostion]);
-	    list.insertBefore(textItem, list.childNodes[commentPostion + 1]);
+	    cloneComment(list, commentPostion)
 	
 	    var commentPostion = (list.childNodes.length - 4)
 	    var commentAddress = this.parentElement.parentElement.parentElement.childNodes[commentPostion].childNodes[3]
 	
-	    commentAddress.childNodes[1].innerText = "Allen Wipf"
-	    commentAddress.childNodes[2].textContent = " " + formText + " "
-	    commentAddress.childNodes[3].childNodes[5].textContent = "0 likes"
-
-	    var postComments = parseInt((this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText).split(" ")[0])
-	    this.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[3].childNodes[3].childNodes[3].innerText = ((postComments + 1) + " comments")
+		fillCommentInfo(commentAddress, formText)
+	    incrementChildComments(this)
 
     } else {
 
@@ -201,36 +216,12 @@ debugger
     	var commentPosition = (item.parentElement.childNodes.length - 1)
     	var commentAddress = item.parentElement.childNodes[commentPosition].childNodes[3]
     	
-		commentAddress.childNodes[1].innerText = "Allen Wipf"
-		commentAddress.childNodes[2].textContent = " " + formText + " "
-		commentAddress.childNodes[3].childNodes[5].innerText = "0 likes"
-
-    	
-    	//Increase Comments
-    	var postComment = parseInt((document.getElementsByClassName("post__info")[0].childNodes[3].innerText).split(" ")[0])
-    	document.getElementsByClassName("post__info")[0].childNodes[3].innerText = ((postComment + 1) + " comments")
-
-   
-  //   	var commentPosition = (item.parentElement.childNodes.length - 1)
-		// var list = item.parentElement.childNodes[commentPosition].childNodes[3].childNodes[5];
-		// var list2 = (list.childNodes.length - 4)
-		
-		// for (i =0; i <= list2; i++){
-		// // while (list.hasChildNodes()) {
-		//  list.removeChild(list.firstChild)
-
-		// 	// }					
-		// }
-
+		fillCommentInfo(commentAddress, formText)
+    	incrementPostComments()
     }
 
-    // debugger
 	e.preventDefault();
-	showCommentsListener();
-	commentLikeListener();
-	commentBoxListener();
-
-
+	reEventL();
 }
 
 
