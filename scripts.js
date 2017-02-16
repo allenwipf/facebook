@@ -35,7 +35,7 @@ window.addEventListener("load", function () {
 
 	var list = document.getElementsByTagName("form")
 		for (var i = 0; i < list.length; i++){
-			document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
+			document.getElementsByTagName("form")[i].addEventListener("submit", saveComments);
 		}
 })
 
@@ -66,34 +66,30 @@ function changeCommentLikes(){
 	}
 }
 
-// This function expands the comments for each of the replies on the post
+// checks to see if there is a hidden comment box. If not will run a function to create it, if there is, 
+// will set it to "block". If the box is showing it will be set to "none"
 function CommentsShow(){
  	
 	try {
 		(this.parentElement.parentElement.childNodes[5].style.display == undefined)
 	} catch(err) {
-
-		list = this.parentElement.parentElement
-		commentPostion = this.parentElement.parentElement.childNodes.length - 2 
-		cloneCommentBox(list, commentPostion)
-		
-	}
-		debugger
-		var currentStyle = this.parentElement.parentElement.childNodes[5].style.display
 	
+		list = this.parentElement.parentElement
+		cloneCommentBox(list, 4)	
+	}
+	
+		var currentStyle = this.parentElement.parentElement.childNodes[5].style.display
+		
 		if (currentStyle == "none") {
 			this.parentElement.parentElement.childNodes[5].style.display = "block"	
 		} else if (currentStyle == "block") {		
 			this.parentElement.parentElement.childNodes[5].style.display = "none"
 		}
 
-	reEventL();
+	 reEventL();
 }
 
-
-
-
-
+// shows the hidden modal profile when a name is clicked. writes some innter text as well
 function profileView(){
 
     document.getElementsByClassName("modal")[0].style.display = "block"
@@ -101,6 +97,7 @@ function profileView(){
     document.getElementsByClassName("modal__title")[0].parentElement.childNodes[5].innerText = "friends: " + Math.floor((Math.random() * 500) + 200)
 }
 
+// closes the hidden modal profile box
 function closeProfileBox(e){
 
 	if (e.target == this){
@@ -114,7 +111,7 @@ function closeProfileBox(e){
 	} 	
 }
 
-
+// when clicking on the post name, will focus the mouse cursor on the comment text field.
 function clickComment(){
 
 	this.parentElement.parentElement.parentElement.getElementsByTagName("textarea")[5].focus()
@@ -174,14 +171,20 @@ function cloneComment(list, commentPostion){
 
 function cloneCommentBox(list, commentPostion){
 
-	var newItem = document.getElementById("commentBoxClone");
+	var lastone = document.getElementsByClassName("replies").length;
+
+	var textNode = document.getElementsByClassName("replies")[0].childNodes[0]
+	var newItem = document.getElementsByClassName("replies")[lastone -1];
+
+	var textNode = textNode.cloneNode(true);
 	var newItem = newItem.cloneNode(true);
     list.insertBefore(newItem, list.childNodes[commentPostion]);
+    list.insertBefore(textNode, list.childNodes[lastone -2]);
   
 
 }
 
-function commentBox(e){
+function saveComments(e){
 	// Saves comment box to variable
 	var formText = this.childNodes[1].value;
 
@@ -189,12 +192,24 @@ function commentBox(e){
 		alert("Please enter a comment!")
 		return
 	}
+
 	//sets comment box to empty
 	this.childNodes[1].value = ''
+	commmentCount = this.parentElement.parentElement.parentElement.childNodes.length
 
-	var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
+	try{
+		var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
+	}catch(err){
+	}
 
-	if ((list.childNodes[list.childNodes.length-2].className == "commentForm media")){
+    
+	if (commmentCount <= 4) {
+
+		cloneComment(this.parentElement.parentElement.parentElement , 1)
+
+	  debugger
+	} else if (list.childNodes[list.childNodes.length-2].className == "commentForm media"){
+		var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
 
 		commentPostion = (list.childNodes.length - 2)
 
@@ -208,11 +223,12 @@ function commentBox(e){
 
     } else {
 
+    	var list = this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement;
 		var item = document.getElementsByClassName("cloneBox2")[0].childNodes[1];
 		var item = item.cloneNode(true);
-		//debugger
+
 		this.parentElement.parentElement.parentElement.getElementsByClassName("comment media")[0].parentElement.appendChild(item);
-    	
+  
     	var commentPosition = (item.parentElement.childNodes.length - 1)
     	var commentAddress = item.parentElement.childNodes[commentPosition].childNodes[3]
     	
@@ -223,6 +239,7 @@ function commentBox(e){
 	e.preventDefault();
 	reEventL();
 }
+
 
 
 function showCommentsListener(){
@@ -242,7 +259,7 @@ var list = document.getElementsByClassName("comment__info");
 function commentBoxListener(){
 var list = document.getElementsByTagName("form")
 	for (var i = 0; i < list.length; i++){
-		document.getElementsByTagName("form")[i].addEventListener("submit", commentBox);
+		document.getElementsByTagName("form")[i].addEventListener("submit", saveComments);
 	}
 }
 
