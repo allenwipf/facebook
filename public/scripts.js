@@ -73,9 +73,10 @@ function CommentsShow(){
 	try {
 		(this.parentElement.parentElement.childNodes[5].style.display == undefined)
 	} catch(err) {
-	
+		debugger
 		list = this.parentElement.parentElement
 		cloneCommentBox(list, 4)	
+		debugger
 	}
 	
 		var currentStyle = this.parentElement.parentElement.childNodes[5].style.display
@@ -172,14 +173,14 @@ function cloneComment(list, commentPostion){
 function cloneCommentBox(list, commentPostion){
 
 	var lastone = document.getElementsByClassName("replies").length;
-
+debugger
 	var textNode = document.getElementsByClassName("replies")[0].childNodes[0]
 	var newItem = document.getElementsByClassName("replies")[lastone -1];
 
 	var textNode = textNode.cloneNode(true);
 	var newItem = newItem.cloneNode(true);
     list.insertBefore(newItem, list.childNodes[commentPostion]);
-    list.insertBefore(textNode, list.childNodes[lastone -2]);
+    list.insertBefore(textNode, list.childNodes[4]);
   
 
 }
@@ -206,6 +207,8 @@ function saveComments(e){
 	if (commmentCount <= 4) {
 
 		cloneComment(this.parentElement.parentElement.parentElement , 1)
+		this.parentElement.parentElement.parentElement.childNodes[1].childNodes[3].getElementsByTagName("a")[0].innerHTML = "Allen Wipf"
+		this.parentElement.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[2].textContent = "  Yo "
 
 	  debugger
 	} else if (list.childNodes[list.childNodes.length-2].className == "commentForm media"){

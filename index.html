@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Facebook</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-  <script type = "text/javascript" src="scripts.js"></script>
+  <link rel="stylesheet" type="text/css" href="public/styles.css">
+  <script type = "text/javascript" src="public/scripts.js"></script>
 </head>
 <body>
 
@@ -31,12 +31,14 @@
         <a href="#" class="action action--share">Share</a>
       </div>
     </div>
-
+  
     <div class="post__details">
       <div class="post__info">
         <a href="#">28 likes</a>
         <a href="#">3 comments</a>
       </div>
+
+      <!-- beginning of replies -->
 
       <div class="post__comments">
         <div class="comment media">
@@ -53,7 +55,9 @@
               Yesterday at 10:00am
             </div>
 
-            <div class="replies" style="display: none">
+            <!-- beginning of replies -->
+
+            <div class="replies" style="display: block">
               <div class="comment media">
                 <img src="images/user.png" class="profilePhoto">
 
@@ -357,8 +361,14 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
+
+
+
+
+<!-- CUT OFF POINT FOR "POST" -->
+
+
 <div class="modal" style="display: none">
   <div class="modal__content">
     <div class="modal__close">X</div>
@@ -367,54 +377,39 @@
     <div class="modal__body">Nunc nec fermentum dolor. Duis at iaculis turpis. Sed rutrum elit ac egestas dapibus. Duis nec consequat enim.</div>
   </div>
 </div>
-<!-- not using this -->
-<div class="cloneBox" style="display: none">
-              <div class="comment media">
-                <img src="images/user.png" class="profilePhoto">
 
-                <div class="media__info">
-                  <a href="#">Name 1</a>
-                  Donec imperdiet sem leo, id rutrum risus aliquam vitae. Cras tincidunt porta mauris, vel feugiat mauris accumsan eget.
-
-                  <div class="comment__info">
-                    <a href="#">Like</a>
-                    <a href="#">Reply</a>
-                    <span>0 likes</span>
-                    Yesterday at 10:00am
-                  </div>
-                </div>
-              </div>
-</div>
 
 <div class="cloneBox2" style="display: none">
-<div class="comment media">
+  <div class="comment media">
+    <img src="images/user.png" class="profilePhoto">
+
+    <div class="media__info">
+      <a href="#">Name 1</a>
+      Donec imperdiet sem leo, id rutrum risus aliquam vitae. Cras tincidunt porta mauris, vel feugiat mauris accumsan eget.
+
+      <div class="comment__info">
+        <a href="#">Like</a>
+        <a href="#">Reply</a>
+        <span>2 likes</span>
+        Yesterday at 10:00am
+      </div>
+
+      <div class="replies" style="display: none;">
+        <div class="commentForm media">
           <img src="images/user.png" class="profilePhoto">
 
           <div class="media__info">
-            <a href="#">Name 1</a>
-            Donec imperdiet sem leo, id rutrum risus aliquam vitae. Cras tincidunt porta mauris, vel feugiat mauris accumsan eget.
-
-            <div class="comment__info">
-              <a href="#">Like</a>
-              <a href="#">Reply</a>
-              <span>2 likes</span>
-              Yesterday at 10:00am
-            </div>
-
-            <div class="replies" style="display: none;">
-              <div class="commentForm media">
-                <img src="images/user.png" class="profilePhoto">
-
-                <div class="media__info">
-                  <form action="#" method="post">
-                    <textarea name="comment"></textarea>
-                    <input type="submit">
-                  </form>
-                </div>
-              </div>
-            </div>
+            <form action="#" method="post">
+              <textarea name="comment"></textarea>
+              <input type="submit">
+            </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

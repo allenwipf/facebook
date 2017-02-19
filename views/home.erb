@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facebook</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script type = "text/javascript" src="main.js"></script>
+</head>
+<body>
+
+<!-- BEGINNING OF THE MAIN PART -->
+
+
+<div class="outerContainer">
+  <h1>Facebook</h1>
+  
+  <div class="post">
+    <div class="post__main">
+      <div class="media">
+        <img src="images/user.png" class="profilePhoto">
+
+        <div class="media__info">
+          <a href="#">Name 1</a>
+          <div>Yesterday at 10:00am</div>
+        </div>
+      </div>
+
+      <div class="post__body">
+        <p>Hello world!</p>
+      </div>
+
+      <div class="post__actions">
+        <a href="#" class="action action--like">Like</a>
+        <a href="#" class="action action--comment">Comment</a>
+        <a href="#" class="action action--share">Share</a>
+      </div>
+    </div>
+  
+    <div class="post__details">
+      <div class="post__info">
+        <a href="#">28 likes</a>
+        <a href="#">3 comments</a>
+      </div>
+ 
+<!-- beginning of replies -->
+
+      <div class="post__comments">
+      </div>
+
+<!--  end of replies -->
+      
+
+    </div>
+</div>
+
+
+<!-- END OF THE MAIN PART -->
+<div class="modal" style="display: none">
+  <div class="modal__content">
+    <div class="modal__close">X</div>
+    <div class="modal__title">Title</div>
+    <div class="modal__friends">Number</div>
+    <div class="modal__body">Nunc nec fermentum dolor. Duis at iaculis turpis. Sed rutrum elit ac egestas dapibus. Duis nec consequat enim.</div>
+  </div>
+</div>
+
+
+<div class="cloneBox2" style="display: none">
+  <div class="comment media">
+    <img src="images/user.png" class="profilePhoto">
+
+    <div class="media__info">
+      <a href="#">Name 1</a>
+      Donec imperdiet sem leo, id rutrum risus aliquam vitae. Cras tincidunt porta mauris, vel feugiat mauris accumsan eget.
+
+      <div class="comment__info">
+        <a href="#">Like</a>
+        <a href="#">Reply</a>
+        <span>2 likes</span>
+        Yesterday at 10:00am
+      </div>
+
+      <div class="replies" style="display: none;">
+        <div class="commentForm media">
+          <img src="images/user.png" class="profilePhoto">
+
+          <div class="media__info">
+            <form action="#" method="post">
+              <textarea name="comment"></textarea>
+              <input type="submit">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
