@@ -5,110 +5,80 @@ getRequest.open('GET', '/replies');
 getRequest.onload = function() {
 
     var rawData = JSON.parse(getRequest.responseText);
-    start(rawData)
+    renderHTML(rawData)
 };
 
 getRequest.send();
 
 
-function start(rawData){
+function renderHTML(rawData) {
+    var jsonComment = rawData["post"]["postComments"]
+    var postRepliesLocation = document.getElementsByClassName("post__comments")[0]
 
-    rawData = rawData["post"]["postComments"]
+    for (x in jsonComment){
 
-    buildCommentList(rawData)
+        var postReply = createAccount(jsonComment, x)
 
-}
+        if (parseInt(jsonComment[x].replies) > 0) {
 
-function buildCommentList1(jsonPostComment, parentID){
+            postRepliesLocation.insertAdjacentHTML("beforeend", postReply)
+            var childReplies = jsonComment[x]["comment_replies"]
 
-    htmlLocation = document.getElementsByClassName("post__comments")[0]
-
-    for (x in jsonPostComment){
-
-        var postReply = createAccount(jsonPostComment, x)
-
-        debugger
-        
-        if (parseInt(jsonPostComment[x].replies) > 0) {
-            var childReplies = jsonPostComment[x]["comment_replies"]
-
-            if (parentID) {
-                htmlLocation.getElementsByClassName("comment_" + childReplies[z].id)[0].insertAdjacentHTML("beforeend", postReply)
-
-            } else {
-            
-                htmlLocation[0]("beforeend", postReply)
-            }
-
-            if (childReplies.length > 0){
-
-                buildCommentList(childReplies, jsonPostComment[x].id)
-            }
-            
+            // Since the nested comments have a slightly different structure, start traversing after the first element is created
+            buildCommentList(childReplies, jsonComment[x].id)
         } else {
-
-            document.insertAdjacentHTML("beforeend", postReply + "</div></div>")
-
-        }
-    }     
-}
-// Takes the JSON from getInfo() and parses the text as HTML and inserts the node into DOM at specified location
-function buildCommentList(jsonPostComment){
-
-    var htmlLocation = document.getElementsByClassName("post__comments")[0]
-
-    for (x in jsonPostComment){
-
-        htmlLocation.insertAdjacentHTML("beforeend", createAccount(jsonPostComment, x))
-        var childReplies = jsonPostComment[x]["comment_replies"]          
-               
-        for (z in childReplies){
-
-            document.getElementsByClassName("comment_"+ jsonPostComment[x].id)[0].insertAdjacentHTML("beforeend", createAccount(childReplies, z))
-            var nestedChildReplies = childReplies[z]["comment_replies"]
-
-            if (z == childReplies.length -1){
-                document.getElementsByClassName("comment_"+ jsonPostComment[x].id)[0].insertAdjacentHTML("beforeend", createCommentBox())
-            }
-
-            for (zz in nestedChildReplies){
-
-                document.getElementsByClassName("comment_" + childReplies[z].id)[0].insertAdjacentHTML("beforeend", createAccount(nestedChildReplies, zz))
-
-                if (zz == nestedChildReplies.length -1){
-                    document.getElementsByClassName("comment_"+ childReplies[z].id)[0].insertAdjacentHTML("beforeend", createCommentBox())
-                }
-            }
+            postRepliesLocation.insertAdjacentHTML("beforeend", postReply + "</div></div>")
         }
     }
-
-    // htmlLocation.insertAdjacentHTML("afterend", createCommentBox())
+    postRepliesLocation.insertAdjacentHTML("afterend", createCommentBox())
 }
 
+// This function will take 2 arguments
+// 1. comments - the child comments
+// 2. parentId - the id of the parent of the child comments
+function buildCommentList(comments, parentId) {
+   
+    // Loop over the child comments
+    for (z in comments) {
+        // Generate the child html
+        var childReply = createAccount(comments, z)
+debugger
+        // Insert the child html into the 'replies' element
+        document.getElementsByClassName("comment_" + parentId)[0].insertAdjacentHTML("beforeend", childReply)
 
+        // See if this child reply has its own child comments
+        var childReplies = comments[z]["comment_replies"]
+
+        // If it does...
+        if (childReplies.length > 0) {
+            // The current comment becomes the new parent
+            var newParent = comments[z]
+
+            // And we recursively build the comment list with the new child comments and new parent id
+            buildCommentList(childReplies, newParent.id)
+        }
+
+        if (z == comments.length -1){
+            document.getElementsByClassName("comment_" + parentId)[0].insertAdjacentHTML("beforeend", createCommentBox() + "</div></div>")
+        }
+    }
+}
+
+// creates the account string
 function createAccount(jsonPostComment, x){
 
     var commentMedia = "<div class='comment media'>"
-
     var profileImage =  "<img src='images/user.png' class='profilePhoto'>"
-    // var mediaInfo = "<div class='media__info media__info__" + jsonPostComment[x].id + "'>"
-    var mediaInfo = "<div class='media__info>"
-
-    var postReplyName = "<a href='#'>" + jsonPostComment[x].name + "</a>"
+    var mediaInfo = "<div class='media__info'>"
+    var postReplyName = "<a href='#'>" + jsonPostComment[x].name + "</a> "
     var postReplyBody = jsonPostComment[x].body
-   
-
     var commentInfo = "<div class='comment__info'>"
     var postReplyLikes = "<span>" + jsonPostComment[x].likes + " likes</span>"
     var postReplyReplies = hasReplies(jsonPostComment[x].replies)
     var postReplyTime = jsonPostComment[x].time + "</div>"
-    
-    // var hiddenDiv = "<div class='replies' style='display: block'>"
     var hiddenDiv = "<div class='replies comment_" + jsonPostComment[x].id + "'" + " style='display: block'>"
-    
-    
-    // final HTML String
-    return htmlString = commentMedia + profileImage + mediaInfo + postReplyName + " " + postReplyBody 
+
+    return htmlString = commentMedia + profileImage + mediaInfo + postReplyName + postReplyBody 
         + commentInfo + postReplyReplies + postReplyLikes + postReplyTime + hiddenDiv
 }
 
@@ -122,7 +92,7 @@ function hasReplies(replies){
         return "<a href='#'> Like</a> <a href='#'>" + replies + " " + " replies </a> "
 }
 
-
+// creates a commment box
 function createCommentBox() {
 
     var commentBox = document.getElementsByClassName("commentForm media")[0].outerHTML
