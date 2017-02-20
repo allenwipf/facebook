@@ -24,7 +24,6 @@ function renderHTML(rawData) {
             postRepliesLocation.insertAdjacentHTML("beforeend", postReply)
             var childReplies = jsonComment[x]["comment_replies"]
 
-            // Since the nested comments have a slightly different structure, start traversing after the first element is created
             buildCommentList(childReplies, jsonComment[x].id)
         } else {
             postRepliesLocation.insertAdjacentHTML("beforeend", postReply + "</div></div>")
@@ -33,35 +32,27 @@ function renderHTML(rawData) {
     postRepliesLocation.insertAdjacentHTML("afterend", createCommentBox())
 }
 
-// This function will take 2 arguments
-// 1. comments - the child comments
-// 2. parentId - the id of the parent of the child comments
-function buildCommentList(comments, parentId) {
+
+function buildCommentList(replies, parentId) {
    
-    // Loop over the child comments
-    for (z in comments) {
-        // Generate the child html
-        var childReply = createAccount(comments, z)
-debugger
-        // Insert the child html into the 'replies' element
+    for (z in replies) {
+        
+        childReply = createAccount(replies, z)
         document.getElementsByClassName("comment_" + parentId)[0].insertAdjacentHTML("beforeend", childReply)
 
-        // See if this child reply has its own child comments
-        var childReplies = comments[z]["comment_replies"]
-
-        // If it does...
-        if (childReplies.length > 0) {
-            // The current comment becomes the new parent
-            var newParent = comments[z]
-
-            // And we recursively build the comment list with the new child comments and new parent id
-            buildCommentList(childReplies, newParent.id)
+        var childReplies = replies[z]["comment_replies"]
+      
+        if (childReplies.length > 0){
+             
+            var newParent = replies[z].id
+            // recursion
+            buildCommentList(childReplies, newParent)
         }
 
-        if (z == comments.length -1){
+        if (z == replies.length -1){
             document.getElementsByClassName("comment_" + parentId)[0].insertAdjacentHTML("beforeend", createCommentBox() + "</div></div>")
         }
-    }
+    }   
 }
 
 // creates the account string
